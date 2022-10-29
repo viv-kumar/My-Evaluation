@@ -1,0 +1,206 @@
+<html>
+  <head>
+    <title>Web20-C4</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #navbar {
+        /* border: 2px solid red; */
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #navbar > div {
+        display: flex;
+        /* border: 2px solid green; */
+        justify-content: space-around;
+        padding: 15px;
+      }
+      #navbar > div > a {
+        text-decoration: none;
+        color: black;
+      }
+      #navbar > div > a:hover {
+        cursor: pointer;
+        color: grey;
+      }
+      #navbar > h2 {
+        font-size: 40px;
+      }
+      table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 60%;
+        margin: auto;
+        margin-top: 50px;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      table td,
+      table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+      table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: yellow;
+        color: black;
+        text-align: center;
+      }
+      .style:hover{
+        cursor:pointer;
+    }
+    
+      /* table tr:nth-child(even) {
+        background-color: #8caacf;
+      }
+
+      table tr:hover {
+        background-color: #ddd;
+      } */
+    </style>
+  </head>
+
+  <body>
+    <div id="navbar">
+      <h2>My Library</h2>
+      <div>
+        <a href="./index.html">
+          <h2>Home</h2>
+        </a>
+        <a href="./dashboard.html">
+          <h2>Dashboard</h2>
+        </a>
+        <a href="./buy.html">
+          <h2>My Books</h2>
+        </a>
+        <a href="./bookmark.html">
+          <h2>Bookmark</h2>
+        </a>
+      </div>
+    </div>
+    <select id="filter" onchange="filtercat()">
+      <option value="">Select Category</option>
+      <option value="Fiction">Fiction</option>
+      <option value="Self Help">Self Help</option>
+      <option value="Finance">Finance</option>
+    </select>
+    <h1>Total Books:- <span id="book-count">0</span></h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Description</th>
+          <th>Added Date</th>
+          <th>Category</th>
+          <th>Buy</th>
+          <th>Bookmark</th>
+          <th>Price</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Append your data here  -->
+      </tbody>
+    </table>
+  </body>
+</html>
+<script>
+  var desArr = JSON.parse(localStorage.getItem("dashboardlist")) || [];
+  displaydesc();
+  function displaydesc() {
+    document.querySelector("tbody").innerText = "";
+    desArr.map(function (ele, indx, arr) {
+      var td1 = document.createElement("td");
+      td1.innerText = ele.name;
+      var td2 = document.createElement("td");
+      td2.innerText = ele.author;
+      var td3 = document.createElement("td");
+      td3.innerText = ele.desc;
+      var td4 = document.createElement("td");
+      td4.innerHTML = ele.date;
+      var td5 = document.createElement("td");
+      td5.innerText = ele.category;
+      var td6 = document.createElement("td");
+      td6.innerText = "Buy";
+      td6.addEventListener("click", function () {
+        myBook(indx);
+      });
+      td6.style.backgroundColor = "green";
+      td6.setAttribute("class","style")
+      var td7 = document.createElement("td");
+      td7.innerText = "Add";
+      td7.setAttribute("class","style")
+      td7.addEventListener("click", function () {
+        addBookmark(indx);
+      });
+      td7.style.backgroundColor = "red";
+      var td8 = document.createElement("td");
+      td8.innerText = ele.price;
+      
+      var tr = document.createElement("tr");
+
+      tr.append(td1, td2, td3, td4, td5, td6, td7, td8);
+      document.querySelector("tbody").append(tr);
+      document.getElementById("book-count").innerText = arr.length;
+    });
+  }
+  var bookArr = JSON.parse(localStorage.getItem("mybook")) || [];
+  function myBook(idx) {
+    bookArr.push(desArr[idx]);
+
+    localStorage.setItem("mybook", JSON.stringify(bookArr));
+  }
+  var bookmarkArr = JSON.parse(localStorage.getItem("mybookmark")) || [];
+  function addBookmark(idx) {
+    bookmarkArr.push(desArr[idx]);
+
+    localStorage.setItem("mybookmark", JSON.stringify(bookmarkArr));
+  }
+  function filtercat(){
+    var newarr=desArr.filter(function(el,idx){
+      return el.category===document.getElementById("filter").value;
+    })
+     document.querySelector("tbody").innerText="";
+    newarr.map(function (ele, indx, arr) {
+      var td1 = document.createElement("td");
+      td1.innerText = ele.name;
+      var td2 = document.createElement("td");
+      td2.innerText = ele.author;
+      var td3 = document.createElement("td");
+      td3.innerText = ele.desc;
+      var td4 = document.createElement("td");
+      td4.innerHTML = ele.date;
+      var td5 = document.createElement("td");
+      td5.innerText = ele.category;
+      var td6 = document.createElement("td");
+      td6.innerText = "Buy";
+      td6.addEventListener("click", function () {
+        myBook(indx);
+      });
+      td6.style.backgroundColor = "green";
+      td6.setAttribute("class","style")
+      var td7 = document.createElement("td");
+      td7.innerText = "Add";
+      td7.setAttribute("class","style")
+      td7.addEventListener("click", function () {
+        addBookmark(indx);
+      });
+      td7.style.backgroundColor = "red";
+      var td8 = document.createElement("td");
+      td8.innerText = ele.price;
+      
+      var tr = document.createElement("tr");
+
+      tr.append(td1, td2, td3, td4, td5, td6, td7, td8);
+      document.querySelector("tbody").append(tr);
+      document.getElementById("book-count").innerText = arr.length;
+    });
+  }
+</script>

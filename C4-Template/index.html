@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    #navbar{
+      /* border: 2px solid red; */
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #navbar>div{
+      display: flex;
+      /* border: 2px solid green; */
+      justify-content: space-around;
+      padding: 15px;
+      
+    }
+    #navbar>div>a{
+      text-decoration: none;
+      color: black;
+    }
+    #navbar>div>a:hover{
+      cursor: pointer;
+      color: grey;
+    }
+    #navbar>h2{
+      font-size: 40px;
+      color:rgb(72, 66, 66);
+    }
+    #create{
+      width: 40%;
+      margin: auto;
+      /* border: 2px solid red; */
+      /* height: 400px; */
+      display: grid;
+      grid-template-columns: repeat(1,1fr);
+      padding: 25px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      
+    }
+    #create>h1{
+      text-align: center;
+      margin-bottom: 15px;
+      width: 100%;
+      /* color: blueviolet; */
+    }
+    #create>form{
+      display: grid;
+      grid-template-columns: repeat(1,1fr);
+      gap: 15px;
+      
+    }
+    #create>form>input{
+      padding: 15px;
+      font-size: 25px;color: grey;
+      font-weight: 700;
+      width: 100%;
+      border-radius: 5px;
+    }
+    #create>form>label{
+      font-size: 20px;
+      margin-bottom:-15px;
+      font-weight: 700;
+      width: 100%;
+     
+      
+    }
+    #category{
+      padding: 25px;
+      font-size: 25px;
+      font-weight: 700;
+      padding-left: 15px;
+      width: 100%;
+       border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+    <div id="navbar">
+      <h2>My Library</h2>
+      <div>
+        <a href="./index.html">
+          <h2>Home</h2>
+        </a>
+        <a href="./dashboard.html">
+          <h2>Dashboard</h2>
+        </a>
+        <a href="./buy.html">
+          <h2>My Books</h2>
+        </a>
+        <a href="./bookmark.html">
+          <h2>Bookmark</h2>
+        </a>
+      </div>
+    </div>
+    <div id="create">
+      <h1>Library Management System</h1>
+      <form id="form" onsubmit="submitdata()">
+        <input id="name" placeholder="Book Name" type="text" />
+        <input id="author" placeholder="Author Name" type="text" />
+        <input id="desc" placeholder="Book Description" type="text" />
+        <label for="">Adding Date:-</label>
+        <input type="date" id="added"/>
+        <select id="category">
+          <option value="">Select Category</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Self Help">Self Help</option>
+          <option value="Finance">Finance</option>
+        </select>
+        <input id="price" placeholder="Book's Price" type="number" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  
+  
+  var dataArr=JSON.parse(localStorage.getItem("dashboardlist"))||[];
+  function submitdata(){
+    var formobj={
+      name:document.getElementById("name").value,
+      author:document.getElementById("author").value,
+      desc:document.getElementById("desc").value,
+      date:document.getElementById("added").value,
+      category:document.getElementById("category").value,
+      price:document.getElementById("price").value,
+
+    } 
+    if(document.getElementById("name").value!="" && document.getElementById("author").value!="" && document.getElementById("desc").value!="" && document.getElementById("added").value!="" && document.getElementById("category").value!="" && document.getElementById("price").value!="" ){
+    dataArr.push(formobj);
+    }
+    else{
+      alert("please fill all the details");
+    }
+    localStorage.setItem('dashboardlist',JSON.stringify(dataArr));
+  }
+
+</script>
